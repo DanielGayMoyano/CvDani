@@ -13,4 +13,3 @@ EXPOSE 3000
 
 # Comando para mantener la aplicación ejecutándose (ej. usando nodemon o npm start)
 CMD ["npm", "run", "dev"]
-CMD ["npm start"]
