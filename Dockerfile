@@ -1,15 +1,20 @@
-FROM node:20-alpine
-
+# 1. Imagen base
+# ETAPA 1: Compilar Create React App
+FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copiar dependencias primero para aprovechar la caché
 COPY package*.json ./
 RUN npm install
 
-# Copiar el resto del código (o usar volúmenes)
 COPY . .
+RUN npm run
 
-EXPOSE 3000
+# ETAPA 2: Servidor ultra ligero Nginx
+FROM nginx:alpine
 
-# Comando para mantener la aplicación ejecutándose (ej. usando nodemon o npm start)
-CMD ["npm", "run", "dev"]
+# Copiar el build compilado al directorio de archivos estáticos de Nginx
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
