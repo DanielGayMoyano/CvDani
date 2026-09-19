@@ -1,12 +1,17 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    container_name: cvdani-prueba
-    restart: unless-stopped
+  cv-app-dev:
+    image: node:20-alpine
+    container_name: cv_dani_dev
+    working_dir: /app
+    volumes:
+      # Monta tu código local dentro del contenedor en tiempo real
+      - ./cv:/app
+      # Evita sobreescribir la carpeta node_modules del contenedor
+      - /app/node_modules
     ports:
       - "3000:3000"
+    command: sh -c "npm install && npm start"
     environment:
-      - PORT=3000
-      - NODE_ENV=development
+      - WATCHPACK_POLLING=true # Necesario para que Docker en Linux/VM detecte cambios de archivos al guardar
