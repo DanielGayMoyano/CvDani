@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+<<<<<<< HEAD
   cv-app-dev:
     image: node:20-alpine
     container_name: cv_dani_dev
@@ -15,3 +16,14 @@ services:
     command: sh -c "npm install && npm start"
     environment:
       - WATCHPACK_POLLING=true # Necesario para que Docker en Linux/VM detecte cambios de archivos al guardar
+=======
+  app:
+    build: .
+    container_name: cvdani-prueba
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+>>>>>>> 9c564db (Rename docker-compose.yml to docker-compose.yaml)
