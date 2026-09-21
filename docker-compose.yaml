@@ -1,17 +1,11 @@
 version: '3.8'
 
 services:
-  cv-app-dev:
-    image: node:20-alpine
-    container_name: cv_dani_dev
-    working_dir: /app
-    volumes:
-      # Monta tu código local dentro del contenedor en tiempo real
-      - ./cv:/app
-      # Evita sobreescribir la carpeta node_modules del contenedor
-      - /app/node_modules
+  cv-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cv_dani_container
     ports:
-      - "3000:3000"
-    command: sh -c "npm install && npm start"
-    environment:
-      - WATCHPACK_POLLING=true # Necesario para que Docker en Linux/VM detecte cambios de archivos al guardar
+      - "3000:80"   # Mapea el puerto 3000 de tu Ubuntu al puerto 80 de Nginx
+    restart: always
